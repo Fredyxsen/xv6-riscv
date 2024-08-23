@@ -12,7 +12,7 @@
 **Problemas y Soluciones:**
 
 * **Incompatibilidad de Instrucciones:** Se encontraron instrucciones no soportadas en el código fuente. Se resolvió comentando las líneas problemáticas en el archivo `kernel/riscv.h`.
-* **Incompatibilidad con la version de Qemu** Se tuvo un problema en compatibilidad entre versiones de Qemu ya que mi ubuntu estaba desactualizado en ese aspecto. Por medio de Chatgpt se logro llegar a la solucion instalando la version adecuada y logrando asi su funcionamiento.
+* **Incompatibilidad con la version de Qemu** Se tuvo un problema en compatibilidad entre versiones de Qemu ya que mi ubuntu estaba desactualizado en ese aspecto. Por medio de Chatgpt se logro llegar a la solución instalando la versión adecuada y logrando asi su funcionamiento.
 
 **Confirmación de Funcionamiento:**
 
