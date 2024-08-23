@@ -1,14 +1,28 @@
-## Informe de Instalación de xv6 
+# Instalación de xv6: Diego Marin
 
-**Pasos Seguidos:**
+**Preparación del Entorno**
 
-1. **Clonación del Repositorio:** Se obtuvo el código fuente de xv6 desde GitHub utilizando `git clone`.
-2. **Creación de Rama:** Se creó una nueva rama para mantener los cambios organizados.
-3. **Instalación de Dependencias:** Se instalaron las herramientas necesarias, incluyendo QEMU y el compilador GCC.
-4. **Compilación:** Se compiló el código fuente de xv6 para la arquitectura RISC-V.
-5. **Ejecución en QEMU:** Se inició xv6 en un entorno emulado utilizando QEMU.
-6. **Verificación:** Se ejecutaron comandos básicos en xv6 para confirmar su funcionamiento.
+* **Ubuntu como Base:** Optamos por Ubuntu como sistema operativo base debido a su amplia compatibilidad con herramientas de desarrollo y su facilidad de uso en entornos de virtualización.
 
+* **Herramientas Esenciales:** A través de Ubuntu, instalamos las siguientes herramientas clave:
+    * **Toolchain de RISC-V:** Este conjunto de herramientas, que incluye el compilador GCC, nos permitirá construir xv6 para la arquitectura RISC-V.
+    * **Git:** Git es fundamental para clonar el repositorio de xv6 desde GitHub y gestionar el control de versiones del proyecto.
+    * **QEMU:** Este emulador de hardware nos permitirá ejecutar xv6 en un entorno virtualizado, simulando un sistema RISC-V.
+
+**Obtención y Configuración del Código**
+
+* **Clonación del Repositorio:** Utilizamos `git clone` para descargar una copia local del repositorio de xv6 desde GitHub.
+* **Acceso al Directorio:** Navegamos al directorio `xv6` utilizando el comando `cd` para comenzar a trabajar con el código fuente.
+
+**Compilación y Ejecución**
+
+* **Compilación con QEMU:** Empleamos el comando `make qemu` para compilar xv6, asegurándonos de especificar el `TOOLPREFIX` adecuado para la toolchain de RISC-V.
+* **Verificación de QEMU:** Ejecutamos `make qemu` nuevamente para confirmar que QEMU está instalado y configurado correctamente.
+* **Pruebas Básicas:** Dentro del entorno QEMU, ejecutamos comandos sencillos como `ls`, `echo "Hola mundo"` y `cat README` para verificar que xv6 se ha instalado y está funcionando como se espera.
+
+**Conclusión**
+
+Siguiendo estos pasos, hemos logrado instalar y ejecutar xv6 en un entorno QEMU, sentando las bases para una exploración más profunda de este sistema operativo educativo. A partir de aquí, podemos adentrarnos en el estudio de su código fuente, su arquitectura y sus funcionalidades, e incluso considerar la posibilidad de realizar modificaciones o extensiones para personalizarlo y aprender aún más sobre los sistemas operativos.
 **Problemas y Soluciones:**
 
 * **Incompatibilidad de Instrucciones:** Se encontraron instrucciones no soportadas en el código fuente. Se resolvió comentando las líneas problemáticas en el archivo `kernel/riscv.h`.
