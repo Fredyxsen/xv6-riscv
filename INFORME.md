@@ -12,7 +12,7 @@
 **Problemas y Soluciones:**
 
 * **Incompatibilidad de Instrucciones:** Se encontraron instrucciones no soportadas en el código fuente. Se resolvió comentando las líneas problemáticas en el archivo `kernel/riscv.h`.
-* **Error en `make clean`:** Se presentaron dificultades al limpiar los archivos de compilación. Se solucionó verificando permisos y cerrando programas que pudieran estar utilizando los archivos.
+* **Incompatibilidad con la version de Qemu** Se tuvo un problema en compatibilidad entre versiones de Qemu ya que mi ubuntu estaba desactualizado en ese aspecto. Por medio de Chatgpt se logro llegar a la solucion instalando la version adecuada y logrando asi su funcionamiento.
 
 **Confirmación de Funcionamiento:**
 
@@ -21,7 +21,7 @@
 
 **Confirmacion:**
 
-La instalación de xv6 fue exitosa, superando los desafíos encontrados durante el proceso. El sistema operativo está funcionando correctamente en el entorno QEMU. 
+La instalación de xv6 fue exitosa, superando los desafíos encontrados durante el proceso. El sistema operativo está funcionando correctamente en el entorno QEMU. Se puede apreciar haciendo comandos de prueba.
 Fotos:
 ![Captura de pantalla (25)](https://github.com/user-attachments/assets/39cb43ea-0628-470f-9f89-dd129d6036b2)
 ![Captura de pantalla (24)](https://github.com/user-attachments/assets/1151173e-0161-48ca-83e5-40ffe1c834b3)
