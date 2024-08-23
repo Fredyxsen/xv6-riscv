@@ -1,4 +1,4 @@
-## Informe de Instalación de xv6
+## Informe de Instalación de xv6 
 
 **Pasos Seguidos:**
 
