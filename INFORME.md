@@ -19,8 +19,6 @@
 * La compilación y ejecución de xv6 en QEMU se completaron sin errores.
 * Se verificó la funcionalidad básica mediante la ejecución de comandos simples dentro del sistema operativo.
 
-**Confirmacion:**
-
 La instalación de xv6 fue exitosa, superando los desafíos encontrados durante el proceso. El sistema operativo está funcionando correctamente en el entorno QEMU. Se puede apreciar haciendo comandos de prueba.
 Fotos:
 ![Captura de pantalla (25)](https://github.com/user-attachments/assets/39cb43ea-0628-470f-9f89-dd129d6036b2)
