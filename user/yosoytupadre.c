@@ -2,21 +2,16 @@
 #include "kernel/stat.h"
 #include "user/user.h"
 
-int main() {
-    // Obtener el PID del proceso padre
-    int pid_padre = getppid();
-    printf("El PID del proceso padre es: %d\n", pid_padre);
+int main(void) {
+    int ppid = getppid();
+    printf("El ProcessID del proceso padre es: %d\n", ppid);
 
-    // Definir el nivel del ancestro a buscar
-    int nivel_ancestro = 2;
-    int pid_ancestro = encontrar_ancestro(nivel_ancestro);
+    int n = 2; // Valor según ancestro que se quiera obtener
+    int ancestor_pid = getancestor(n);
+    if (ancestor_pid != -1)
+        printf("El ProcessID del ancestro %d es: %d\n", n, ancestor_pid);
+    else
+        printf("No se encontró un ancestro en el nivel %d.\n", n);
 
-    // Mostrar el resultado
-    if (pid_ancestro != -1) {
-        printf("El PID del ancestro en el nivel %d es: %d\n", nivel_ancestro, pid_ancestro);
-    } else {
-        printf("No se encontró un ancestro en el nivel %d.\n", nivel_ancestro);
-    }
-
-    return 0;  // Finaliza el programa correctamente
+    exit(0);
 }
