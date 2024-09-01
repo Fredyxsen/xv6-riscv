@@ -9,7 +9,7 @@ int main(void) {
     int n = 2; // Valor indicado según el ancestro que se quiera ver
     int ancestor_pid = getancestor(n);
     if (ancestor_pid != -1)
-        printf("El id del proceso que creó el proceso que está ejecutando esta función %d es: %d\n", n, ancestor_pid);
+        printf("El ID de proceso del ancestro numero %d es: %d\n", n, ancestor_pid);
     else
         printf("No se encontró un ancestro en el nivel %d.\n", n);
 
