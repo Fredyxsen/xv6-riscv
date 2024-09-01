@@ -5,10 +5,7 @@
 
 int
 main(int argc, char *argv[])
-{
-    int pid = getpid();
-    int ppid = getppid();
-    printf("Pid: %d\n", pid);
+{   int ppid = getppid();
     printf("PPid: %d\n", ppid);
     exit(1);
-}
+}git
