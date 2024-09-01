@@ -8,7 +8,7 @@ int main() {
     printf("El PID del proceso padre es: %d\n", pid_padre);
 
     // Definir el nivel del ancestro a buscar
-    const int nivel_ancestro = 2;
+    int nivel_ancestro = 2;
     int pid_ancestro = encontrar_ancestro(nivel_ancestro);
 
     // Mostrar el resultado
