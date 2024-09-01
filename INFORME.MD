@@ -1,4 +1,4 @@
-## Informe: Implementación de la Llamada al Sistema `getppid()`
+## TAREA I Diego Marin: Implementación de Llamada al Sistema `getppid()` y `getancestor()`
 
 **Objetivo:**
 Agregar una nueva llamada al sistema, `getppid()`, para permitir que los procesos obtengan el PID (Process ID) de su proceso padre.
