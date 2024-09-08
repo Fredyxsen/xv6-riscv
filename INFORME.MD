@@ -6,7 +6,7 @@ Agregar una nueva llamada al sistema, `getppid()`, para permitir que los proceso
 **Pasos a Seguir:**
 
 1. **Modificar `syscall.h`:**
-   * **Agregar definición:**
+   * **Agregar definición: Como primer paso gregamos la definicion de la nueva llamada `getppid` en el archivo Syscall.h de la siguiente manera **
      ```c
      #define SYS_getppid 22
      ```
