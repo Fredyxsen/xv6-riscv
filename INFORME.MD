@@ -75,23 +75,23 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 3. **Modificar `sysproc.c`:** 
    * **Implementar la función:** Aquí se define la lógica de la nueva llamada al sistema. En este caso, retorna el ancestro indicado en el parámetro y devuelve -1 si ya no hay mas ancestros:
      ```c
-         uint64
-    sys_getancestor(void)
-    {
-      int n;
-      argint(0, &n);
-      if(n < 0)
-        return -1;
-    
-      struct proc *p = myproc();
-      for(int i = 0; i < n; i++){
-        if(p->parent)
-          p = p->parent;
-        else
-          return -1; // No hay más ancestros
-      }
-      return p->pid;
-    }
+             uint64
+        sys_getancestor(void)
+        {
+          int n;
+          argint(0, &n);
+          if(n < 0)
+            return -1;
+        
+          struct proc *p = myproc();
+          for(int i = 0; i < n; i++){
+            if(p->parent)
+              p = p->parent;
+            else
+              return -1; // No hay más ancestros
+          }
+          return p->pid;
+        }
      ```
 4. **Modificar `user.h`:**
    * **Declaración para el espacio de usuario:** Para que los programas de usuario puedan usar la syscall, agregamos una declaración en el archivo `user.h`:
@@ -107,11 +107,11 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
    * **Ejemplo de uso:** Complementamos el archivo de prueba llamado `yosoytupadre.c` para verificar la correcta implementación de la nueva llamada al sistema:
      ```c
      int n = 2; // Valor indicado según el ancestro que se quiera ver
-    int ancestor_pid = getancestor(n);
-    if (ancestor_pid != -1)
-        printf("El ID de proceso del ancestro numero %d es: %d\n", n, ancestor_pid);
-    else
-        printf("No se encontró un ancestro en el nivel %d.\n", n);
+     int ancestor_pid = getancestor(n);
+     if (ancestor_pid != -1)
+         printf("El ID de proceso del ancestro numero %d es: %d\n", n, ancestor_pid);
+     else
+         printf("No se encontró un ancestro en el nivel %d.\n", n);
 
-    exit(0);
+     exit(0);
      ```
