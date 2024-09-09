@@ -1,28 +1,30 @@
 ## TAREA I Diego Marin: Implementación de Llamada al Sistema `getppid()` y `getancestor()`
 
 **Objetivo:**
-Agregar una nueva llamada al sistema, `getppid()`, para permitir que los procesos obtengan el PID (Process ID) de su proceso padre.
+# Agregar la nueva llamada al sistema `getppid()` en xv6
 
-**Pasos a Seguir:**
+El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a los procesos obtener el PID (Process ID) de su proceso padre.
+
+## Pasos a Seguir:
 
 1. **Modificar `syscall.h`:**
-   * **Agregar definición:** Como primer paso gregamos la definicion de la nueva llamada `getppid` en el archivo Syscall.h de la siguiente manera *
+   * **Agregar definición:** En este archivo se deben definir los números únicos asociados a las llamadas al sistema. Agregamos la definición de la nueva llamada `getppid`:
      ```c
      #define SYS_getppid 22
      ```
 
-2. **Modificar `syscall.c`:**
-   * **Declaración externa:**
+2. **Modificar `syscall.c`:** 
+   * **Declaración externa:** Añadimos una referencia a la función `sys_getppid()` que se implementará.
      ```c
      extern uint64 sys_getppid(void);
      ```
-   * **Agregar a la tabla de despacho:**
+   * **Agregar a la tabla de despacho:** Asociamos el número de la syscall con la función que la implementa, añadiendo la llamada a la tabla de funciones:
      ```c
      [SYS_getppid] sys_getppid,
      ```
 
-3. **Modificar `sysproc.c`:**
-   * **Implementar la función:**
+3. **Modificar `sysproc.c`:** 
+   * **Implementar la función:** Aquí se define la lógica de la nueva llamada al sistema. En este caso, obtenemos el proceso actual y devolvemos el PID de su proceso padre:
      ```c
      uint64
      sys_getppid(void)
@@ -33,13 +35,13 @@ Agregar una nueva llamada al sistema, `getppid()`, para permitir que los proceso
      ```
 
 4. **Modificar `user.h`:**
-   * **Declaración para el espacio de usuario:**
+   * **Declaración para el espacio de usuario:** Para que los programas de usuario puedan usar la syscall, agregamos una declaración en el archivo `user.h`:
      ```c
      int getppid(void);
      ```
 
 5. **Modificar `usys.pl`:**
-   * **Agregar a la tabla de generación de código:**
+   * **Agregar a la tabla de generación de código:** Este script genera el código necesario para que los programas de usuario invoquen la syscall. Añadimos la entrada correspondiente para `getppid()`:
      ```perl
      print OUT <<EOF;
      SYS_getppid,
@@ -47,12 +49,11 @@ Agregar una nueva llamada al sistema, `getppid()`, para permitir que los proceso
      ```
 
 6. **Modificar `yosoytupadre.c`:**
-   * **Ejemplo de uso:**
+   * **Ejemplo de uso:** Creamos un archivo de prueba para verificar la correcta implementación de la syscall. En este archivo, el proceso obtiene y muestra el PID de su proceso padre:
      ```c
      int ppid = getppid();
      printf("El ProcessID del proceso padre es: %d\n", ppid);
      ```
 
 7. **Modificar `Makefile`:**
-   * **Actualizar reglas:** Ajustar las reglas de compilación para incluir los nuevos archivos y dependencias.
-
+   * **Actualizar reglas:** Asegurarse de que los archivos nuevos o modificados sean compilados correctamente. Si es necesario, ajustar las reglas de compilación en el `Makefile` para incluir los cambios realizados.
