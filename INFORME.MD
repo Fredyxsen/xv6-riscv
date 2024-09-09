@@ -55,5 +55,7 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 
 7. **Modificar `Makefile`:**
    * **Actualizar reglas:** Asegurarse de que los archivos nuevos o modificados sean compilados correctamente.
-   ` $U/_yosoytupadre\`
+    ```c
+    $U/_yosoytupadre\
+    ```
 
