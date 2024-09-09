@@ -6,7 +6,7 @@ int main(void) {
     int ppid = getppid();
     printf("El ID de proceso del proceso padre es: %d\n", ppid);
 
-    int n = 2; // Valor indicado según el ancestro que se quiera ver
+    int n = 1; // Valor indicado según el ancestro que se quiera ver
     int ancestor_pid = getancestor(n);
     if (ancestor_pid != -1)
         printf("El ID de proceso del ancestro numero %d es: %d\n", n, ancestor_pid);
