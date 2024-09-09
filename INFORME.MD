@@ -42,7 +42,8 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 
 5. **Modificar `usys.pl`:**
    * **Agregar a la tabla de generación de código:** Este script genera el código necesario para que los programas de usuario invoquen la syscall. Añadimos la entrada correspondiente para `getppid()`:
-     ```entry("getppid");
+     ```c
+entry("getppid");
      ```
 
 6. **Modificar `yosoytupadre.c`:**
