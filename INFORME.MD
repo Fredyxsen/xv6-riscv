@@ -119,3 +119,6 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 7. **Pruebas con valores de N`:**
 * **Probamos con N=2:**
 ![2](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/2.png)
+* **Probamos con N=1:**
+![Captura de pantalla (68).png](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/Captura%20de%20pantalla%20(68).png)
+
