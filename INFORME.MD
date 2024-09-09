@@ -116,12 +116,12 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
      exit(0);
      ```
 7. **Pruebas con valores de N`:**
-* **Probamos con N=2:**
-![2](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/2.png)
-* **Probamos con N=1:**
-![Captura de pantalla (66)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/Captura%20de%20pantalla%20(66).png)
-* **Probamos el caso donde retorne el -1 es decir con N=3:**
-![Captura de pantalla (68)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/Captura%20de%20pantalla%20(68).png)
+    * **Probamos con N=2:**
+    ![2](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/2.png)
+    * **Probamos con N=1:**
+    ![Captura de pantalla (66)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/Captura%20de%20pantalla%20(66).png)
+    * **Probamos el caso donde retorne el -1 es decir con N=3:**
+    ![Captura de pantalla (68)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/Captura%20de%20pantalla%20(68).png)
 
 ## Problemas encontrados:
   Falta de conocimiento en el ambiente trabajado:
