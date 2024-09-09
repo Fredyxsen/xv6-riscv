@@ -124,5 +124,5 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 ![Captura de pantalla (68)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/Captura%20de%20pantalla%20(68).png)
 
 ## Problemas encontrados:
-    **Falta de conocimiento en el ambiente trabajado:
-        Mas que nada en esta tarea el problema mas grande y unico que tuve para realizarla fue la falta de conocimiento y lo poco relacionado que estyabva con XV6, ya que despues de buscar bastante informacion en Youtube y complementarla con ayuda de la inteligencia artificial, pude entender y llegar a el proceso para lograr crear nuevas llamadas al sistema e implementarlas en mi XV6
+  Falta de conocimiento en el ambiente trabajado:
+    Mas que nada en esta tarea el problema mas grande y unico que tuve para realizarla fue la falta de conocimiento y lo poco relacionado que estyabva con XV6, ya que despues de buscar bastante informacion en Youtube y complementarla con ayuda de la inteligencia artificial, pude entender y llegar a el proceso para lograr crear nuevas llamadas al sistema e implementarlas en mi XV6
