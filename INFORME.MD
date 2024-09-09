@@ -1,8 +1,4 @@
 ## TAREA I Diego Marin: Implementación de Llamada al Sistema `getppid()` y `getancestor()`
-
-**Objetivo:**
-# Agregar la nueva llamada al sistema `getppid()` en xv6
-
 El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a los procesos obtener el PID (Process ID) de su proceso padre.
 
 ## Pasos a Seguir:
