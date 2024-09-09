@@ -42,18 +42,17 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 
 5. **Modificar `usys.pl`:**
    * **Agregar a la tabla de generación de código:** Este script genera el código necesario para que los programas de usuario invoquen la syscall. Añadimos la entrada correspondiente para `getppid()`:
-     ```perl
-     print OUT <<EOF;
-     SYS_getppid,
-     EOF
+     ```entry("getppid");
      ```
 
 6. **Modificar `yosoytupadre.c`:**
-   * **Ejemplo de uso:** Creamos un archivo de prueba para verificar la correcta implementación de la syscall. En este archivo, el proceso obtiene y muestra el PID de su proceso padre:
+   * **Ejemplo de uso:** Creamos un archivo de prueba llamado `yosoytupadre.c` para verificar la correcta implementación de la nueva llamada al sistema. En este archivo, el proceso obtiene y muestra el PID de su proceso padre:
      ```c
      int ppid = getppid();
-     printf("El ProcessID del proceso padre es: %d\n", ppid);
+     printf("El ID de proceso del proceso padre es: %d\n", ppid);
      ```
 
 7. **Modificar `Makefile`:**
-   * **Actualizar reglas:** Asegurarse de que los archivos nuevos o modificados sean compilados correctamente. Si es necesario, ajustar las reglas de compilación en el `Makefile` para incluir los cambios realizados.
+   * **Actualizar reglas:** Asegurarse de que los archivos nuevos o modificados sean compilados correctamente.
+   ` $U/_yosoytupadre\`
+
