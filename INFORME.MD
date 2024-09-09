@@ -115,3 +115,6 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 
      exit(0);
      ```
+
+7. **Pruebas con valores de N`:**
+* **Probamos con N=2:**
