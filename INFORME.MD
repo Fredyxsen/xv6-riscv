@@ -125,4 +125,4 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 
 ## Problemas encontrados:
   Falta de conocimiento en el ambiente trabajado:
-    Mas que nada en esta tarea el problema mas grande y unico que tuve para realizarla fue la falta de conocimiento y lo poco relacionado que estyabva con XV6, ya que despues de buscar bastante informacion en Youtube y complementarla con ayuda de la inteligencia artificial, pude entender y llegar a el proceso para lograr crear nuevas llamadas al sistema e implementarlas en mi XV6
+    Más que nada en esta tarea el problema mas grande y unico que tuve para realizarla fue la falta de conocimiento y lo poco relacionado que estyabva con XV6, ya que despues de buscar bastante informacion en Youtube y complementarla con ayuda de la inteligencia artificial, pude entender y llegar a el proceso para lograr crear nuevas llamadas al sistema e implementarlas en mi XV6
