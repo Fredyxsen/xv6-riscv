@@ -115,12 +115,14 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 
      exit(0);
      ```
-
 7. **Pruebas con valores de N`:**
 * **Probamos con N=2:**
 ![2](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/2.png)
 * **Probamos con N=1:**
 ![Captura de pantalla (66)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/Captura%20de%20pantalla%20(66).png)
-* **Pprobamos el caso donde retorne el -1 es decir con N=3:**
+* **Probamos el caso donde retorne el -1 es decir con N=3:**
 ![Captura de pantalla (68)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/Captura%20de%20pantalla%20(68).png)
 
+## Problemas encontrados:
+    **Falta de conocimiento en el ambiente trabajado:**
+        * Mas que nada en esta tarea el problema mas grande y unico que tuve para realizarla fue la falta de conocimiento y lo poco relacionado que estyabva con XV6, ya que despues de buscar bastante informacion en Youtube y complementarla con ayuda de la inteligencia artificial, pude entender y llegar a el proceso para lograr crear nuevas llamadas al sistema e implementarlas en mi XV6*
