@@ -118,4 +118,4 @@ El objetivo es agregar una nueva llamada al sistema, `getppid()`, que permita a 
 
 7. **Pruebas con valores de N`:**
 * **Probamos con N=2:**
-https://gemini.google.com/fed0b117-42ca-4588-9e0e-fcf0a8e9d38b
+
