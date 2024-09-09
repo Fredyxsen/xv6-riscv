@@ -11,7 +11,7 @@ int main(void) {
     if (ancestor_pid != -1)
         printf("El ID de proceso del ancestro numero %d es: %d\n", n, ancestor_pid);
     else
-        printf("-1");
+        printf("-1\n");
 
     exit(0);
 }
