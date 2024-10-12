@@ -460,23 +460,22 @@ scheduler(void)
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
       if(p->state == RUNNABLE) {
-        // Switch to chosen process.  It is the process's job
-        // to release its lock and then reacquire it
-        // before jumping back to us.
-                // Modificación: Ajustar la prioridad según boost
+        // Modificación: Ajustar la prioridad según boost
         p->priority += p->boost;
 
-        // Si la prioridad alcanza 9, cambiarr boost a -1
+        // Si la prioridad alcanza 9, cambiar boost a -1
         if(p->priority >= 9) {
           p->boost = -1;
         }
 
-        // Si la prioridad alcanza 0, cambiar boost a n*1
+        // Si la prioridad alcanza 0, cambiar boost a 1
         if(p->priority <= 0) {
           p->boost = 1;
         }
 
-          
+        // Switch to chosen process.  It is the process's job
+        // to release its lock and then reacquire it
+        // before jumping back to us.
         p->state = RUNNING;
         c->proc = p;
         swtch(&c->context, &p->context);
