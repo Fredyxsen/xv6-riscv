@@ -22,7 +22,7 @@ fork_processes(int n)
 int
 main()
 {
-   printf("Iniciando prueba de prioridades...\n");
+   printf("Iniciando prueba de prioridades...\n"); //iniciamos pruebas
    fork_processes(20);
    exit(0);
 }

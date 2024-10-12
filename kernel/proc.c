@@ -466,12 +466,12 @@ scheduler(void)
                 // Modificación: Ajustar la prioridad según boost
         p->priority += p->boost;
 
-        // Si la prioridad alcanza 9, cambiar boost a -1
+        // Si la prioridad alcanza 9, cambiarr boost a -1
         if(p->priority >= 9) {
           p->boost = -1;
         }
 
-        // Si la prioridad alcanza 0, cambiar boost a 1
+        // Si la prioridad alcanza 0, cambiar boost a n*1
         if(p->priority <= 0) {
           p->boost = 1;
         }
