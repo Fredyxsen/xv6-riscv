@@ -38,7 +38,7 @@ Se inicializa la prioridad de cada proceso en 0 y se agrega el campo `boost = 1`
 
 1. **Modificaciones al archivo `proc.c`:**
 
-    Se implementó la lógica de ajuste de prioridad dentro de la función `scheduler()` ya que esta parte del codigo se encarga de decidir que proceso ejecutar en cada momento. Es por esto que lo modificamos para implementar la logica de las prioridades y de este modo se tenga en consideracion el campo `priority`(añadido en el `proc.h`) al seleccionar el siguiente proceso a ejecutar. 
+    Se implementó la lógica de ajuste de prioridad dentro de la función `scheduler()` ya que esta parte del codigo se encarga de decidir que proceso ejecutar en cada momento. Es por esto que lo modificamos para implementar la logica de las prioridades y de este modo se tenga en consideracion el campo `priority`(añadido en el `proc.h`) al seleccionar el siguiente proceso a ejecutar. Añadimos por ultimo las condiciones solicitadas, como por ejemplo si  la prioridad alcanza 9, cambiar el boost a -1 o si la prioridad llega a 0, cambiar el boost a 1.
 
     ```c
     void
