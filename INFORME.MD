@@ -103,8 +103,8 @@
 ### Pruebas de la función
 
 1. **Ejecución del programa de prueba `testpriority`:**
-
-    * hola
+    * **Compilamos XV6 en el branch de la tarea 2, ademas de usar el comando `ls` para ver si la llamada del sistema esta disponible y fue ingresada correctamente :**
+    ![Captura de pantalla (108)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T1/Captura%20de%20pantalla%20(66).png)
 
 ## Conclusiones y problemas
 
