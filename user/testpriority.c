@@ -8,7 +8,7 @@ fork_processes(int n)
     int pid = fork();
     if(pid == 0) {
       sleep(i * 10);
-      printf("Ejecutando proceso hijo con pid %d\n", getpid());
+      printf("Ejecutando proceso %d con pid %d\n", i + 1, getpid()); // Mostrar número de proceso
       sleep(10);
       exit(0);
     }

@@ -124,8 +124,8 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
-  p->priority = 0;
-  p->boost = 1;
+  p->priority = 0; // añadimos priority a found
+  p->boost = 1; // añadimos tambien el boost a found
 
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
@@ -460,15 +460,15 @@ scheduler(void)
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
       if(p->state == RUNNABLE) {
-        // Modificación: Ajustar la prioridad según boost
+        // Ajustamos la prioridad segun el BOOST
         p->priority += p->boost;
 
-        // Si la prioridad alcanza 9, cambiar boost a -1
+        // Si la prioridad llega hasta el numero 9, se cambia el boost a -1
         if(p->priority >= 9) {
           p->boost = -1;
         }
 
-        // Si la prioridad alcanza 0, cambiar boost a 1
+        // Si la prioridad llega hasta 0, se cambia el boost a 1
         if(p->priority <= 0) {
           p->boost = 1;
         }
