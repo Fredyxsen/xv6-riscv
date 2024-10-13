@@ -108,9 +108,12 @@
     * **Ejecutamos la llamada de sistema `testpriority`:**
     ![Captura de pantalla (109)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T2/Captura%20de%20pantalla%20(109).png)
     ![Captura de pantalla (110)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T2/Captura%20de%20pantalla%20(110).png)
+
+    Como se puede apreciar, todo funciona correctamente y el output es el esperado.
     
     
     
 ## Conclusiones y problemas
 
-* hola
+* Esta tarea fue bastante desafiante ya que fue necesario en su momento comprender bien lo que se hizo en la tarea numero 1 para poder seguir avanzando en esta misma, ya que como podemos ver se ocupan las `llamadas al sistema` y la modificacion de archivos como fue en el caso del `proc`, tanto `proc.h` como `proc.c`.
+Por lo que uno de los grandes problemas que destacaré, fue el retomar y reintegrarse a este tema del xv6, ya que al hacer una tarea luego por la falta de practica se me olvidan los temas que he aprendido y tengo que volver a repasarlos nuevamente y eso quita bastante tiempo y es poco eficiente, pero una vez retomado todo este tema fue bastante fluido el desarrollo y todo los problemas presentados durante la tarea fueron temas sencillos que se me fueron por la falta de practica como dije anteriormente.
