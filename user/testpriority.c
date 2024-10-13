@@ -1,21 +1,29 @@
 #include "kernel/types.h"
 #include "user/user.h"
 
-int main()
+void
+fork_processes(int n)
 {
-  for (int i = 0; i < 20; i++) { // it has to run 20 processes
+  for(int i = 0; i < n; i++) {
     int pid = fork();
-
-    if (pid < 0) {
-      printf("Fork failed\n");
-      exit(1);
-    } else if (pid == 0) {
-      printf("Ejecutando proceso %d con pid %d y prioridad %d\n", i + 1, getpid(), getpriority());
-      sleep(3);
+    if(pid == 0) {
+      sleep(i * 10);
+      printf("Ejecutando proceso hijo con pid %d\n", getpid());
+      sleep(10);
       exit(0);
-    } else {
-      wait(0);
     }
   }
+
+  // Se espera que todos los hijos terminen
+  for(int i = 0; i < n; i++) {
+    wait(0);
+  }
+}
+
+int
+main()
+{
+  printf("Iniciando prueba de prioridades...\n");
+  fork_processes(20);
   exit(0);
 }
