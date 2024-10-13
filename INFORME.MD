@@ -105,7 +105,12 @@
 1. **Ejecución del programa de prueba `testpriority`:**
     * **Compilamos XV6 en el branch de la tarea 2, ademas de usar el comando `ls` para ver si la llamada del sistema esta disponible y fue ingresada correctamente :**
     ![Captura de pantalla (108)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T2/Captura%20de%20pantalla%20(108).png)
-
+    * **Ejecutamos la llamada de sistema `testpriority`:**
+    ![Captura de pantalla (109)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T2/Captura%20de%20pantalla%20(109).png)
+    ![Captura de pantalla (110)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T2/Captura%20de%20pantalla%20(110).png)
+    
+    
+    
 ## Conclusiones y problemas
 
 * hola
