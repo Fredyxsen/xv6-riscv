@@ -74,13 +74,13 @@ Se inicializa la prioridad de cada proceso en 0 y se agrega el campo `boost = 1`
     #include "user/user.h"
 
     void
-    fork_processes(int n)
+    fork_processes(int n) // Define una función llamada fork_processes que recibe un entero n como argumento
     {
-      for (int i = 0; i < n; i++) {
-        int pid = fork();
-        if (pid == 0) {
+      for (int i = 0; i < n; i++) { // Inicia un bucle for que se ejecuta n veces.
+        int pid = fork(); // Crea un nuevo proceso hijo usando la llamada al sistema fork().
+        if (pid == 0) { // Si pid es 0, significa que este es el proceso hijo.
           sleep(i * 10);
-          printf("Ejecutando proceso %d con pid %d\n", i + 1, getpid());
+          printf("Ejecutando proceso %d con pid %d\n", i + 1, getpid()); // Imprime el número de proceso y su PID.
           sleep(10);
           exit(0);
         }
@@ -88,16 +88,16 @@ Se inicializa la prioridad de cada proceso en 0 y se agrega el campo `boost = 1`
 
       // Esperar a que todos los hijos finalicen
       for (int i = 0; i < n; i++) {
-        wait(0);
+        wait(0); // Espera a que cualquier hijo termine.  El argumento 0 indica que no se necesita información de estado del hijo
       }
     }
 
     int
     main()
     {
-      printf("Inicializando prueba de prioridades...\n");
-      fork_processes(20);
-      exit(0);
+      printf("Inicializando prueba de prioridades...\n"); // Imprime un mensaje indicando el inicio de la prueba.
+      fork_processes(20); // Llama a la función fork_processes para crear 20 procesos hijos.
+      exit(0); // Termina el proceso principal.
     }
     ```
 
