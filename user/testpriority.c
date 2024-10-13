@@ -14,7 +14,7 @@ fork_processes(int n)
     }
   }
 
-  // Se espera que todos los hijos terminen
+  // Se espera a que todos los hijos finalicen
   for(int i = 0; i < n; i++) {
     wait(0);
   }
@@ -23,7 +23,7 @@ fork_processes(int n)
 int
 main()
 {
-  printf("Iniciando prueba de prioridades...\n");
+  printf("Inicializando prueba de prioridades...\n");
   fork_processes(20);
   exit(0);
 }
