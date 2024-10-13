@@ -6,7 +6,7 @@
 
 1. **Modificaciones al archivo `proc.h`:**
 
-    Se añadieron las líneas `int priority;` y `int boost;` en la estructura `struct proc`:
+    Se añadieron las líneas `int priority;`, la cual sera la encargada de almacenar la prioridad de cada proceso y `int boost;`, el cual nos servira para implementar el campo de boost. Todo esto se añade en la estructura `struct proc`:
 
     ```c
     struct proc {
@@ -20,7 +20,8 @@
 
 1. **Modificaciones al archivo `proc.c`:**
 
-    Se inicializa la prioridad de cada proceso en 0 y se agrega el campo `boost = 1` dentro de la función `allocproc()`:
+    En este archivo se encuentra la función allocproc(), que se encarga de crear e inicializar nuevas estructuras de proceso. Para que cada proceso tenga una prioridad inicial, debemos modificar esta función para asignar un valor al campo priority de la nueva estructura de proceso.
+Se inicializa la prioridad de cada proceso en 0 y se agrega el campo `boost = 1` dentro de la función `allocproc()`:
 
     ```c
     static struct proc*
@@ -37,7 +38,7 @@
 
 1. **Modificaciones al archivo `proc.c`:**
 
-    Se implementó la lógica de ajuste de prioridad dentro de la función `scheduler()`:
+    Se implementó la lógica de ajuste de prioridad dentro de la función `scheduler()` ya que esta parte del codigo se encarga de decidir que proceso ejecutar en cada momento. Es por esto que lo modificamos para implementar la logica de las prioridades y de este modo se tenga en consideracion el campo `priority`(añadido en el `proc.h`) al seleccionar el siguiente proceso a ejecutar. 
 
     ```c
     void
