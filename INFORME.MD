@@ -1,4 +1,4 @@
-# Tarea 2: Implementación de Prioridades en xv6 - Diego Marín
+# Tarea 2 Diego Marín
 
 ## Desarrollo de la Tarea 2
 
