@@ -14,6 +14,10 @@ En este trabajo, se implementaron las funciones del sistema operativo `mprotect`
 
 #### 1. Declaración de las funciones del sistema
 * **syscall.h:** Se agregaron las constantes `SYS_mprotect` y `SYS_munprotect` para identificar las nuevas llamadas al sistema.
+* ```c
+    #define SYS_mprotect 22  //nuevas llamadas
+    #define SYS_munprotect 23 //nuevas llamadas
+    ```
 * **user.h:** Se declararon los prototipos de las funciones `mprotect` y `munprotect` en el espacio de usuario.
 
 #### 2. Implementación de las funciones del sistema en syscall.c
