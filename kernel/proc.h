@@ -109,6 +109,6 @@ struct proc {
 };
 
 
-// En proc.h
+// Nuevas lineas
 int mprotect(void *addr, int len);
 int munprotect(void *addr, int len);

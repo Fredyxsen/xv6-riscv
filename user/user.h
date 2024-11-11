@@ -44,7 +44,7 @@ void* malloc(uint);
 void free(void*);
 
 
-//nuevas para asignacion de memoria
+// nuevas llamadas
 int mprotect(void *addr, int len);
 int munprotect(void *addr, int len);
 

@@ -129,8 +129,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
-[SYS_mprotect]    sys_mprotect, //nueva
-[SYS_munprotect]  sys_munprotect, //nueva
+[SYS_mprotect]    sys_mprotect, //nuevas llamadas
+[SYS_munprotect]  sys_munprotect, //nuevas llamadas
 };
 
 void

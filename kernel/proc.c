@@ -707,17 +707,17 @@ int mprotect(void *addr, int len) {
             return -1;  // Invalid page
         }
 
-        // Imprimir el estado de PTE_W antes de modificarlo
+        // Linea para printear el estado del PTE_W antes de modificarlo
         if (*pte & PTE_W) {
             printf("Page at 0x%lx is writable\n", a);
         } else {
             printf("Page at 0x%lx is read-only\n", a);
         }
 
-        // Desactivar el permiso de escritura (hace la página de solo lectura)
+        // Linea para desactivar el permiso de escritura, haciendo la pag solo lectura
         *pte &= ~PTE_W;
 
-        // Imprimir el estado de PTE_W después de la modificación
+        // Printear el estado del PTE_W luego de la modificacion
         if (*pte & PTE_W) {
             printf("Page at 0x%lx is now writable\n", a);
         } else {
@@ -740,17 +740,17 @@ int munprotect(void *addr, int len) {
             return -1;  // Invalid page
         }
 
-        // Imprimir el estado de PTE_W antes de modificarlo
+        // Printea el estado del PTE_W antes de modificarlo
         if (*pte & PTE_W) {
             printf("Page at 0x%lx is writable\n", a);
         } else {
             printf("Page at 0x%lx is read-only\n", a);
         }
 
-        // Restaurar el permiso de escritura
+        // Restaura el permiso de la escritura
         *pte |= PTE_W;
 
-        // Imprimir el estado de PTE_W después de la modificación
+        // Printea el estado del PTE_W luego de la modificacion
         if (*pte & PTE_W) {
             printf("Page at 0x%lx is now writable\n", a);
         } else {
