@@ -101,6 +101,8 @@ extern uint64 sys_unlink(void);
 extern uint64 sys_link(void);
 extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
+extern uint64 sys_mprotect(void);  //agregamos
+extern uint64 sys_munprotect(void); //agregamos
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
