@@ -13,7 +13,7 @@ int main() {
         p[i] = 'A';
     }
 
-    // Proteger la memoria (hacerla de solo lectura)
+    // Proteger la memoria lo cual es hacerla de solo lectura
     if (mprotect(addr, 1) < 0) {
         printf("mprotect failed\n");
         exit(1);
@@ -22,8 +22,8 @@ int main() {
     // Intentar escribir en la memoria protegida
     int success = 1;
     if (fork() == 0) {
-        p[0] = 'B';  // Esto debería fallar y causar una terminación
-        success = 0; // Si escribe, algo está mal
+        p[0] = 'B';  // Deberia fallar y terminar.
+        success = 0; // Si escribe, algo es porque algo esta fallando
         exit(0);
     } else {
         wait(0);
@@ -35,7 +35,7 @@ int main() {
         printf("mprotect test failed: write succeeded on protected memory\n");
     }
 
-    // Quitar la protección (volver a permitir escritura)
+    // Quitar la protección lo cual es volver a permitir escritura
     if (munprotect(addr, 1) < 0) {
         printf("munprotect failed\n");
         exit(1);
