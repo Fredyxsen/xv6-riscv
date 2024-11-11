@@ -1,67 +1,153 @@
-## Tarea 3: Protección de Memoria en xv6 - Implementación de mprotect y munprotect
-
-### Introducción
-
+## TAREA 3 Diego Marin
 En este trabajo, se implementaron las funciones del sistema operativo `mprotect` y `munprotect` en el sistema xv6. Estas funciones permiten modificar los permisos de acceso a una región de memoria de un proceso, lo que es fundamental para garantizar la seguridad y la integridad de los datos.
 
-### Objetivos
+## Pasos a Seguir:
 
-* **Implementar** las funciones del sistema `mprotect` y `munprotect` en xv6.
-* **Modificar** la tabla de páginas para reflejar los cambios de permisos.
-* **Verificar** la correcta funcionalidad de las funciones implementadas a través de pruebas unitarias.
-
-### Diseño e Implementación
-
-#### 1. Declaración de las funciones del sistema
-* **syscall.h:** Se agregaron las constantes `SYS_mprotect` y `SYS_munprotect` para identificar las nuevas llamadas al sistema.
+1. **Modificar `syscall.h`:**
+   * **Agregar definición:** En este archivo se deben definir los números únicos asociados a las llamadas al sistema. Agregamos la definición de la nueva llamada `SYS_mprotect` y `SYS_munprotect` :
      ```c
-    #define SYS_mprotect 22  //nuevas llamadas
-    #define SYS_munprotect 23 //nuevas llamadas
-    ```
-* **user.h:** Se declararon los prototipos de las funciones `mprotect` y `munprotect` en el espacio de usuario.
+     #define SYS_mprotect 22
+     #define SYS_munprotect 23 
+     ```
 
-#### 2. Implementación de las funciones del sistema en syscall.c
-* **sys_mprotect y sys_munprotect:** Estas funciones extraen los argumentos de la llamada al sistema (dirección inicial y tamaño de la región) y validan su corrección. Luego, delegan la tarea de modificar los permisos a las funciones `mprotect` y `munprotect` correspondientes en el espacio del kernel.
+2. **Modificar `user.h`:** 
+   * **Declaración externa:** Añadimos una referencia a la función `sys_getppid()` que se implementará.
+     ```c
+     int mprotect(void *addr, int len);
+     int munprotect(void *addr, int len);
+     ```
+   * **Declara las funciones en ```user.h ```:** Asociamos el número de las syscalls con las funciónes que las implementan, añadiendo las llamadas a la tabla de funciones:
+     ```c
+     int mprotect(void *addr, int len);
+     int munprotect(void *addr, int len);
+     ```
 
-#### 3. Implementación de mprotect y munprotect en proc.c
-* **mprotect:**
-    * **Iteración sobre las páginas:** Recorre cada página dentro del rango especificado.
-    * **Obtención de la entrada de la tabla de páginas:** Utiliza la función `walk` para obtener la entrada de la tabla de páginas correspondiente a cada dirección virtual.
-    * **Modificación de permisos:** Desactiva el bit `PTE_W` en la entrada de la tabla de páginas para marcar la página como de solo lectura.
-    * **Refresco de la TLB:** Llama a `sfence_vma` para invalidar las entradas de la TLB correspondientes a las páginas modificadas.
-* **munprotect:**
-    * **Lógica similar a mprotect:** Itera sobre las páginas, obtiene las entradas de la tabla de páginas y restaura el bit `PTE_W` para permitir la escritura.
+3. **Modificar `syscall.c`:** 
+   * **Implementar la función:** Aquí se define la lógica de las nuevas llamadas al sistema. En este caso,agregamos las funciones `sys_mprotect` y `sys_munprotect`:
+     ```c
+     extern uint64 sys_mprotect(void); 
+     extern uint64 sys_munprotect(void); 
+     ```
+    * **Agregamos las partes de las funciones en sus respetivas lineas de codigo:
+         ```c
+         [SYS_mprotect]    sys_mprotect, 
+         [SYS_munprotect]  sys_munprotect, 
+         ```
+        ```c
+        uint64 sys_mprotect(void) {
+            uint64 addr;
+            int len;
+            
+            // Extraer los argumentos de la System Call
+            argaddr(0, &addr);
+            argint(1, &len);
+        
+            // Validar los valores extraídos (si es negativo retornar -1)
+            if (len <= 0 || addr == 0)
+                return -1;
+        
+            // Llamar a mprotect con los argumentos ya extraídos
+            return mprotect((void *)addr, len);
+        }
+        
+        uint64 sys_munprotect(void) {
+            uint64 addr;
+            int len;
+        
+            // Extraer los argumentos de la llamada de sistema
+            argaddr(0, &addr);
+            argint(1, &len);
+        
+            // Validar los valores extraídos, (si es negativo retornar -1)
+            if (len <= 0 || addr == 0)
+                return -1;
+        
+            // Llamar a munprotect con los argumentos ya extraídos
+            return munprotect((void *)addr, len);
+        }
+        ```
 
-#### 4. Modificación de la tabla de páginas
-La modificación de los permisos se realiza directamente sobre la entrada de la tabla de páginas. Al desactivar o activar el bit `PTE_W`, se indica al hardware si se permite o no la escritura en la página correspondiente. El refresco de la TLB es esencial para asegurar que los cambios en la tabla de páginas se reflejen en la traducción de direcciones.
+4. **Modificar `Proc.h`:**
+   * **Lineas INT de ambos:**
+     ```c
+     int mprotect(void *addr, int len);
+     int munprotect(void *addr, int len);
+     ```
 
-### Pruebas
-Se creó un programa de prueba, `mprotect_test.c`, para verificar el correcto funcionamiento de las funciones implementadas. Este programa intenta escribir en una región de memoria protegida como de solo lectura y verifica que se genere una excepción.
+5. **Modificar `usys.pl`:**
+   * **Agregar a la tabla de generación de código:** Este script genera el código necesario para que los programas de usuario invoquen las syscalls. Añadimos la entrada correspondiente para los dos llamadas:
+     ```c
+     entry("mprotect");
+     entry("munprotect");
+     ```
 
-### Justificación de los cambios
-* **Iteración sobre las páginas:** Es necesario recorrer cada página dentro del rango especificado para modificar los permisos de todas ellas.
-* **Obtención de la entrada de la tabla de páginas:** La función `walk` permite acceder a la estructura de la tabla de páginas y modificar los permisos a nivel de página individual.
-* **Modificación del bit PTE_W:** Este bit controla el permiso de escritura en una página. Al desactivarlo, se prohíbe la escritura.
-* **Refresco de la TLB:** La TLB almacena una caché de las traducciones de direcciones. Al modificar la tabla de páginas, es necesario invalidar las entradas de la TLB correspondientes para asegurar que se utilicen las nuevas traducciones.
+6. **Modificación de la tabla de páginas:**
+   * La modificación de los permisos se realiza directamente sobre la entrada de la tabla de páginas. Al desactivar o activar el bit `PTE_W`, se indica al hardware si se permite o no la escritura en la página correspondiente. El refresco de la TLB es esencial para asegurar que los cambios en la tabla de páginas se reflejen en la traducción de direcciones.
 
-### Conclusiones
-La implementación de las funciones `mprotect` y `munprotect` en xv6 proporciona una forma de controlar los permisos de acceso a la memoria a nivel de página. Esta funcionalidad es fundamental para la seguridad y la integridad de los datos, ya que permite proteger regiones de memoria críticas contra accesos no autorizados.
+     ```c
+     int munprotect(void *addr, int len) {
+        struct proc *p = myproc();
+        uint64 va = (uint64) addr;
+    
+        for (uint64 a = va; a < va + len; a += PGSIZE) {
+            pte_t *pte = walk(p->pagetable, a, 0);
+            if (pte == 0 || (*pte & PTE_V) == 0) {
+                return -1;  // Invalid page
+            }
+    
+            // Printea el estado del PTE_W antes de modificarlo
+            if (*pte & PTE_W) {
+                printf("Page at 0x%lx is writable\n", a);
+            } else {
+                printf("Page at 0x%lx is read-only\n", a);
+            }
+    
+            // Restaura el permiso de la escritura
+            *pte |= PTE_W;
+    
+            // Printea el estado del PTE_W luego de la modificacion
+            if (*pte & PTE_W) {
+                printf("Page at 0x%lx is now writable\n", a);
+            } else {
+                printf("Page at 0x%lx is now read-only\n", a);
+            }
+        }
+     ```
+     ```c
+     int mprotect(void *addr, int len) {
+        struct proc *p = myproc();
+        uint64 va = (uint64) addr;
+    
+        for (uint64 a = va; a < va + len; a += PGSIZE) {
+            pte_t *pte = walk(p->pagetable, a, 0);
+            if (pte == 0 || (*pte & PTE_V) == 0) {
+                return -1;  // Invalid page
+            }
+    
+            // Linea para printear el estado del PTE_W antes de modificarlo
+            if (*pte & PTE_W) {
+                printf("Page at 0x%lx is writable\n", a);
+            } else {
+                printf("Page at 0x%lx is read-only\n", a);
+            }
+    
+            // Linea para desactivar el permiso de escritura, haciendo la pag solo lectura
+            *pte &= ~PTE_W;
+    
+            // Printear el estado del PTE_W luego de la modificacion
+            if (*pte & PTE_W) {
+                printf("Page at 0x%lx is now writable\n", a);
+            } else {
+                printf("Page at 0x%lx is now read-only\n", a);
+            }
+        }
+    
+        sfence_vma();  // Flush TLB
+        return 0;
+        }
+        ```
+## Ahora ejecutamos.. 
 
-**[Incluir aquí cualquier diagrama o figura que ayude a visualizar la implementación]**
 
-**[Añadir secciones adicionales si es necesario, como por ejemplo, consideraciones de rendimiento o posibles extensiones]**
-
-**Ejemplos concretos:**
-
-Imagina una aplicación que maneja datos sensibles, como contraseñas o información financiera. Al utilizar `mprotect`, puedes marcar la región de memoria que almacena estos datos como de solo lectura, evitando que otros procesos puedan modificarlos accidentalmente o de forma maliciosa.
-
-**Consideraciones de seguridad:**
-
-* **Ataques de desbordamiento de búfer:** `mprotect` puede ayudar a mitigar los efectos de estos ataques al proteger las zonas de memoria adyacentes a los búferes.
-* **Escalada de privilegios:** Al limitar los permisos de escritura en ciertas regiones de memoria, se dificulta que un atacante pueda modificar el estado del sistema para obtener privilegios más altos.
-
-**Optimizaciones:**
-
-* **Búsqueda binaria:** Para mejorar la eficiencia de la búsqueda de la entrada de la tabla de páginas, se puede utilizar una búsqueda binaria en lugar de una búsqueda lineal.
-
-**Importante:** Adaptar este informe a tu estilo de escritura y a los requisitos específicos de tu tarea.
+1. **Pruebas:**
+   * **Ejecutamos los test:** 
