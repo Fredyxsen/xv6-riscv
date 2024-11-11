@@ -1,175 +1,120 @@
+# Tarea 2 Diego Marín
 
+## Desarrollo de la Tarea 2
 
-# Tarea 3: Protección de Memoria en xv6
+### Modificación de la estructura del proceso
 
+1. **Modificaciones al archivo `proc.h`:**
 
+    Se añadieron las líneas `int priority;`, la cual sera la encargada de almacenar la prioridad de cada proceso y `int boost;`, el cual nos servira para implementar el campo de boost. Todo esto se añade en la estructura `struct proc`:
 
-1. Implementar las funciones mprotect y munprotect.
-2. Modificación de la Tabla de Páginas
+    ```c
+    struct proc {
+      // ... otros campos ...
+      int priority;
+      int boost;
+    };
+    ```
 
-- En sistemas operativos, mprotect y munprotect son funciones que permiten cambiar los permisos de una página de memoria en un proceso. Estas funciones son útiles, por ejemplo, para proteger regiones de memoria contra escritura o lectura no deseadas.
+### Inicializar la prioridad y agregar el campo boost
 
-- ```mprotect```: Cambia los permisos de una región de memoria para protegerla. Por ejemplo, podrías hacer que una página sea de solo lectura.
+1. **Modificaciones al archivo `proc.c`:**
 
-- ```munprotect```: Restaura los permisos de una región de memoria a su estado original, eliminando las restricciones de mprotect.
+    En este archivo se encuentra la función allocproc(), que se encarga de crear e inicializar nuevas estructuras de proceso. Para que cada proceso tenga una prioridad inicial, debemos modificar esta función para asignar un valor al campo priority de la nueva estructura de proceso.
+Se inicializa la prioridad de cada proceso en 0 y se agrega el campo `boost = 1` dentro de la función `allocproc()`:
 
-# Pasos para implementar ``` mprotect y munprotect ```
+    ```c
+    static struct proc*
+    allocproc(void)
+    {
+      // ... otro código ...
+      p->priority = 0;
+      p->boost = 1;
+      // ... otro código ...
+    }
+    ```
 
-1. En el archivo syscall.h agregar
+### Implementación de la lógica: Prioridad += Boost
 
-```
-#define SYS_mprotect 22
-#define SYS_munprotect 23 
-``` 
+1. **Modificaciones al archivo `proc.c`:**
 
-2. en ```user.h``` agregar:
+    Se implementó la lógica de ajuste de prioridad dentro de la función `scheduler()` ya que esta parte del codigo se encarga de decidir que proceso ejecutar en cada momento. Es por esto que lo modificamos para implementar la logica de las prioridades y de este modo se tenga en consideracion el campo `priority`(añadido en el `proc.h`) al seleccionar el siguiente proceso a ejecutar. Añadimos por ultimo las condiciones solicitadas, como por ejemplo si  la prioridad alcanza 9, cambiar el boost a -1 o si la prioridad llega a 0, cambiar el boost a 1.
 
-```
-//nuevas para asignacion de memoria
-int mprotect(void *addr, int len);
-int munprotect(void *addr, int len);
-```
+    ```c
+    void
+    scheduler(void)
+    {
+      // ... otro código ...
+      p->priority += p->boost;
 
+      // Ajustar boost según la prioridad
+      if (p->priority >= 9) {
+        p->boost = -1;
+      } else if (p->priority <= 0) {
+        p->boost = 1;
+      }
+      // ... otro código ...
+    }
+    ```
 
-3. En el archivo ```syscall.c```, agrega las funciones sys_mprotect y sys_munprotect, y mapea estas funciones a sus correspondientes entradas en la tabla de syscall
+### Creación del programa de prueba `testpriority.c`
 
-```
-extern uint64 sys_mprotect(void);  //nueva
-extern uint64 sys_munprotect(void); //nueva
-```
+1. **Creación del archivo `testpriority.c`:**
 
-```
-[SYS_mprotect]    sys_mprotect, //nueva
-[SYS_munprotect]  sys_munprotect, //nueva
-```
+    Se creó el programa `testpriority.c` dentro del directorio `user`.
 
-```
-uint64 sys_mprotect(void) {
-    uint64 addr;
-    int len;
+2. **Incorporación a `Makefile`:**
+
+    Se añadió la línea `$U/_testpriority\` al final de la sección `UPROGS` del `Makefile` para incluir el programa en la compilación de xv6.
+
+3. **Implementación de la función en `testpriority.c`:**
+
+    ```c
+    #include "kernel/types.h"
+    #include "user/user.h"
+
+    void
+    fork_processes(int n) // Define una función llamada fork_processes que recibe un entero n como argumento
+    {
+      for (int i = 0; i < n; i++) { // Inicia un bucle for que se ejecuta n veces.
+        int pid = fork(); // Crea un nuevo proceso hijo usando la llamada al sistema fork().
+        if (pid == 0) { // Si pid es 0, significa que este es el proceso hijo.
+          sleep(i * 10);
+          printf("Ejecutando proceso %d con pid %d\n", i + 1, getpid()); // Imprime el número de proceso y su PID.
+          sleep(10);
+          exit(0);
+        }
+      }
+
+      // Esperar a que todos los hijos finalicen
+      for (int i = 0; i < n; i++) {
+        wait(0); // Espera a que cualquier hijo termine.  El argumento 0 indica que no se necesita información de estado del hijo
+      }
+    }
+
+    int
+    main()
+    {
+      printf("Inicializando prueba de prioridades...\n"); // Imprime un mensaje indicando el inicio de la prueba.
+      fork_processes(20); // Llama a la función fork_processes para crear 20 procesos hijos.
+      exit(0); // Termina el proceso principal.
+    }
+    ```
+
+### Pruebas de la función
+
+1. **Ejecución del programa de prueba `testpriority`:**
+    * **Compilamos XV6 en el branch de la tarea 2, ademas de usar el comando `ls` para ver si la llamada del sistema esta disponible y fue ingresada correctamente :**
+    ![Captura de pantalla (108)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T2/Captura%20de%20pantalla%20(108).png)
+    * **Ejecutamos la llamada de sistema `testpriority`:**
+    ![Captura de pantalla (109)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T2/Captura%20de%20pantalla%20(109).png)
+    ![Captura de pantalla (110)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T2/Captura%20de%20pantalla%20(110).png)
+
+    Como se puede apreciar, todo funciona correctamente y el output es el esperado.
     
-    // Extraer los argumentos de la llamada de sistema
-    argaddr(0, &addr);
-    argint(1, &len);
+    
+    
+## Conclusiones y problemas
 
-    // Validar los valores extraídos (por ejemplo, verifica si `len` es negativo)
-    if (len <= 0 || addr == 0)
-        return -1;
-
-    // Llamar a mprotect con los argumentos extraídos
-    return mprotect((void *)addr, len);
-}
-
-uint64 sys_munprotect(void) {
-    uint64 addr;
-    int len;
-
-    // Extraer los argumentos de la llamada de sistema
-    argaddr(0, &addr);
-    argint(1, &len);
-
-    // Validar los valores extraídos (por ejemplo, verifica si `len` es negativo)
-    if (len <= 0 || addr == 0)
-        return -1;
-
-    // Llamar a munprotect con los argumentos extraídos
-    return munprotect((void *)addr, len);
-}
-```
-
-
-
-4. Definir las funciones mprotect y munprotect en el archivo proc.c 
-
-- La función mprotect debería tomar una dirección de inicio (addr) y un tamaño (len) como argumentos, y marcar las páginas en esa región como de solo lectura.
-
-- Para munprotect, toma los mismos argumentos (addr y len), y restaura los permisos originales de las páginas (por ejemplo, de lectura y escritura).
-
-codigo:
-
-```
-#include "types.h"
-#include "riscv.h"
-#include "defs.h"
-#include "memlayout.h"
-#include "proc.h"
-
-// Define mprotect function
-int
-mprotect(void *addr, int len)
-{
-    struct proc *p = myproc();
-    uint64 va = (uint64) addr;
-    for (uint64 a = va; a < va + len; a += PGSIZE) {
-        pte_t *pte = walk(p->pagetable, a, 0);
-        if (pte == 0 || (*pte & PTE_V) == 0) {
-            return -1;  // Invalid page
-        }
-        *pte &= ~PTE_W;  // Remove write permission
-    }
-    sfence_vma();  // Flush TLB
-    return 0;
-}
-
-// Define munprotect function
-int
-munprotect(void *addr, int len)
-{
-    struct proc *p = myproc();
-    uint64 va = (uint64) addr;
-    for (uint64 a = va; a < va + len; a += PGSIZE) {
-        pte_t *pte = walk(p->pagetable, a, 0);
-        if (pte == 0 || (*pte & PTE_V) == 0) {
-            return -1;  // Invalid page
-        }
-        *pte |= PTE_W;  // Restore write permission
-    }
-    sfence_vma();  // Flush TLB
-    return 0;
-}
-```
-- Antes de pasar al paso 5 vamos a comprobar que los cambios hechos funcionen, para ello crearemos mprotect_test.c para comprobarlo, luego lo añadiremos al Makefile para compilar y lo ejecutaremos 
-
-```make qemu```
-
-```$ mprotect_test```
-
-si el programa  y los cambios fueron implementados correctamente, se deberia ver esto: 
-mprotect test passed
-munprotect test passed
-
-
-error: falto incluir en ```proc.h``` :
-
-```
-// En proc.h
-int mprotect(void *addr, int len);
-int munprotect(void *addr, int len);
-```
-
-otro error: el archivo de prueba no reconoce las nuevas funciones. solucion:
-Declara las funciones en ```user/user.h ```
-
-```
-int mprotect(void *addr, int len);
-int munprotect(void *addr, int len);
-```
-
-y Agrega las llamadas de sistema en ```user/usys.pl```
-
-```
-entry("mprotect");
-entry("munprotect");
-```
-
-
-5. Modificar los permisos en la tabla de páginas:
-
-- En xv6, los codigos de ```mprotect``` y ```munprotect``` en ```proc.c``` usan la función ```walk()``` para obtener la entrada de la tabla de páginas correspondiente a la dirección de cada página en el rango de addr hasta addr + len.
-Ademas, cambia los permisos de la entrada de la tabla de páginas usando los bits de permisos. Para hacer que una página sea de solo lectura, desactiva el bit PTE_W en la entrada de la tabla de páginas. (estos cambios ya estan en el codigo de ambas funciones nuevas)
-
-
-- Fotos de los test ejecutados exitosamente
-
-![Foto 1 ](img/tarea3-sistemas-testpass.png)
-![Foto 2 ](img/tarea3-sistemas-testpass2.png)
+* Esta tarea fue bastante desafiante ya que fue necesario en su momento comprender bien lo que se hizo en la tarea numero 1 para poder seguir avanzando en esta misma, ya que como podemos ver se ocupan las `llamadas al sistema` y la modificacion de archivos como fue en el caso del `proc`, tanto `proc.h` como `proc.c`.
+Por lo que uno de los grandes problemas que destacaré, fue el retomar y reintegrarse a este tema del xv6, ya que al hacer una tarea luego por la falta de practica se me olvidan los temas que he aprendido y tengo que volver a repasarlos nuevamente y eso quita bastante tiempo y es poco eficiente, pero una vez retomado todo este tema fue bastante fluido el desarrollo y todo los problemas presentados durante la tarea fueron temas sencillos que se me fueron por la falta de practica como dije anteriormente.
