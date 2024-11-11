@@ -205,3 +205,5 @@ En este trabajo, se implementaron las funciones del sistema operativo `mprotect`
     **Capturas**:
    ![Captura de pantalla (161)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T3/Captura%20de%20pantalla%20(161).png)
    ![Captura de pantalla (162)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T3/Captura%20de%20pantalla%20(162).png)
+
+   Como se puede apreciar, todo funciona correctamente y el output es el esperado. ya que como podemos ver al intentar escribir en la memoria después de mprotect, se puede ver como falla. Pero luego de aplicar munprotect, se puede apreciar como ya despues no pone problemas. Pasando los dos el test.
