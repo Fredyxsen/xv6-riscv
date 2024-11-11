@@ -207,3 +207,7 @@ En este trabajo, se implementaron las funciones del sistema operativo `mprotect`
    ![Captura de pantalla (162)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T3/Captura%20de%20pantalla%20(162).png)
 
    Como se puede apreciar, todo funciona correctamente y el output es el esperado. ya que como podemos ver al intentar escribir en la memoria después de mprotect, se puede ver como falla. Pero luego de aplicar munprotect, se puede apreciar como ya despues no pone problemas. Pasando los dos el test.
+
+## Conclusion y problemas:
+En esta tarea, se implementaron las funciones mprotect y munprotect para proteger la memoria, lo que facilitó el aprendizaje sobre la gestión de permisos en la tabla de páginas de xv6. Aunque se encontraron algunos errores al principio, se resolvieron adecuadamente mediante ajustes en archivos fundamentales del kernel. Esta experiencia me ayudó a reforzar los conocimientos sobre la administración de memoria y el control de permisos en un sistema operativo.
+En cuanto a los problemas obtenidos, solo tuve uno. El cual fue un paso muy importante el fue muy importante y me costo mucho tiempo comprender, y fue el simple hecho de añadir las funciones al usys.pl, y añadirle las entrys a cada uno. Luego de solucionar ese problema no se tuvo ningun inconveniente más, pudiendo completar la tarea satisfactoriamente.
