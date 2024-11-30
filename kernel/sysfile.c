@@ -334,25 +334,26 @@ sys_open(void)
       return -1;
     }
 
-    if(ip->perm == 5) {
+    if(ip->permissions == 5) {
       if(omode != O_RDONLY) {
         iunlockput(ip);
         end_op();
         return -1;
       }
     } else {
-      if((omode & O_WRONLY) && !(ip->perm & 2)) {
+      if((omode & O_WRONLY) && !(ip->permissions & 2)) {
         iunlockput(ip);
         end_op();
         return -1;
       }
 
-      if((omode & O_RDONLY) && !(ip->perm & 1)) {
+      if((omode & O_RDONLY) && !(ip->permissions & 1)) {
         iunlockput(ip);
         end_op();
         return -1;
       }
     }
+
   }
 
   if(ip->type == T_DEVICE && (ip->major < 0 || ip->major >= NDEV)){
@@ -544,13 +545,13 @@ sys_chmod(void) {
 
   ilock(ip);
 
-  if(ip->perm == 5) {
+  if(ip->permissions == 5) {
     iunlockput(ip);
     end_op();
     return -1;
   }
 
-  ip->perm = mode;
+  ip->permissions = mode;
   iupdate(ip);
   iunlockput(ip);
   end_op();
