@@ -198,23 +198,23 @@ static struct inode* iget(uint dev, uint inum);
 struct inode*
 ialloc(uint dev, short type)
 {
+  int inum;
   struct buf *bp;
   struct dinode *dip;
 
-  for(int inum = 1; inum < NINODE; inum++){
+  for(inum = 1; inum < sb.ninodes; inum++){
     bp = bread(dev, IBLOCK(inum, sb));
-    dip = (struct dinode*)bp->data + inum % IPB;
+    dip = (struct dinode*)bp->data + inum%IPB;
     if(dip->type == 0){  // a free inode
       memset(dip, 0, sizeof(*dip));
       dip->type = type;
-      log_write(bp);
+      log_write(bp);   // mark it allocated on the disk
       brelse(bp);
-      struct inode *ip = iget(dev, inum);
-      ip->perm = 3; // NEW: Assign default permissions
-      return ip;
+      return iget(dev, inum);
     }
     brelse(bp);
   }
+  printf("ialloc: no inodes\n");
   return 0;
 }
 

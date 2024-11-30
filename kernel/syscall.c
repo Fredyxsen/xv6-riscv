@@ -101,12 +101,7 @@ extern uint64 sys_unlink(void);
 extern uint64 sys_link(void);
 extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
-extern uint64 sys_getppid(void);
-extern uint64 sys_getancestor(void);
-extern uint64 sys_mprotect(void);
-extern uint64 sys_munprotect(void);
 extern uint64 sys_chmod(void);
-
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
@@ -132,12 +127,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
-[SYS_getppid] sys_getppid,
-[SYS_getancestor] sys_getancestor,
-[SYS_mprotect]   sys_mprotect,
-[SYS_munprotect] sys_munprotect,
-[SYS_chmod] sys_chmod,
-
+[SYS_chmod]   sys_chmod,
 };
 
 void
@@ -157,4 +147,3 @@ syscall(void)
     p->trapframe->a0 = -1;
   }
 }
-

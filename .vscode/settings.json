@@ -1,5 +1,5 @@
 {
-    "files.associations": {
-        "user.h": "c"
-    }
+  "files.associations": {
+    "cstdlib": "c"
+  }
 }
