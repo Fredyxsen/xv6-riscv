@@ -333,6 +333,26 @@ sys_open(void)
       end_op();
       return -1;
     }
+
+    if(ip->perm == 5) {
+      if(omode != O_RDONLY) {
+        iunlockput(ip);
+        end_op();
+        return -1;
+      }
+    } else {
+      if((omode & O_WRONLY) && !(ip->perm & 2)) {
+        iunlockput(ip);
+        end_op();
+        return -1;
+      }
+
+      if((omode & O_RDONLY) && !(ip->perm & 1)) {
+        iunlockput(ip);
+        end_op();
+        return -1;
+      }
+    }
   }
 
   if(ip->type == T_DEVICE && (ip->major < 0 || ip->major >= NDEV)){
@@ -501,5 +521,39 @@ sys_pipe(void)
     fileclose(wf);
     return -1;
   }
+  return 0;
+}
+
+uint64
+sys_chmod(void) {
+  char path[MAXPATH];
+  int mode;
+  struct inode *ip;
+
+  argint(1, &mode);
+  if(argstr(0, path, MAXPATH) < 0 || mode < 0)
+    return -1;
+
+  begin_op();
+
+  if((ip = namei(path)) == 0) {
+    end_op();
+    printf("Archivo no encontrado.\n");
+    return -1; 
+  }
+
+  ilock(ip);
+
+  if(ip->perm == 5) {
+    iunlockput(ip);
+    end_op();
+    return -1;
+  }
+
+  ip->perm = mode;
+  iupdate(ip);
+  iunlockput(ip);
+  end_op();
+
   return 0;
 }
