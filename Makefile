@@ -139,10 +139,14 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
-	$U/_test\
+	$U/_yosoytupadre\
+	$U/_prueba\
+	$U/_protection\
+	$U/_permtest\
+		
+fs.img: mkfs/mkfs README $(UPROGS)
 
-fs.img: mkfs/mkfs README.md $(UPROGS)
-	mkfs/mkfs fs.img README.md $(UPROGS)
+	mkfs/mkfs fs.img README $(UPROGS)
 
 -include kernel/*.d user/*.d
 

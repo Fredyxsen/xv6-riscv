@@ -91,3 +91,61 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+
+uint64
+sys_getppid(void){
+  struct proc *p=myproc();
+  return p->parent ? p->parent->pid : 0; //Devuelve el PID del padre o 0 si no tiene padre
+}
+
+uint64
+sys_getancestor(void) {
+  int n;
+
+  argint(0, &n);
+
+  struct proc *p = myproc();
+  for (int i = 0; i < n; i++) {
+    if (p->parent == 0)
+
+    p = p->parent;
+  }
+  return p->pid;
+}
+
+extern int set_priority(int pid, int priority);
+extern int set_boost(int pid, int boost);
+
+// Declaramos las funciones de mprotect y munprotect
+int mprotect(pagetable_t pagetable, void *addr, int len);
+int munprotect(pagetable_t pagetable, void *addr, int len);
+
+uint64 sys_mprotect(void) {
+    uint64 addr;
+    int len;
+
+    // Llama a argaddr y argint sin verificar un valor de retorno.
+    //  se asume que si algo sale mal con estos, habrá un efecto visible en la ejecución por como esta seteado xv6.
+    argaddr(0, (uint64*)&addr);
+    argint(1, &len);
+
+    // Validación manual: si addr o len no son válidos, retorna -1.
+    if (addr == 0 || len <= 0)
+        return -1;
+
+    return mprotect(myproc()->pagetable, (void *)addr, len);
+}
+
+uint64 sys_munprotect(void) {
+    uint64 addr;
+    int len;
+
+    argaddr(0, (uint64*)&addr);
+    argint(1, &len);
+
+    if (addr == 0 || len <= 0)
+        return -1;
+
+    return munprotect(myproc()->pagetable, (void *)addr, len);
+}

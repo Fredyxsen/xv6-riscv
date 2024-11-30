@@ -16,6 +16,7 @@
 #include "file.h"
 #include "fcntl.h"
 
+
 // Fetch the nth word-sized system call argument as a file descriptor
 // and return both the descriptor and the corresponding struct file.
 static int
@@ -334,24 +335,19 @@ sys_open(void)
       return -1;
     }
 
-    if(ip->perm == 5) {
-      if(omode != O_RDONLY) {
-        iunlockput(ip);
-        end_op();
-        return -1;
-      }
-    } else {
-      if((omode & O_WRONLY) && !(ip->perm & 2)) {
-        iunlockput(ip);
-        end_op();
-        return -1;
-      }
-
-      if((omode & O_RDONLY) && !(ip->perm & 1)) {
-        iunlockput(ip);
-        end_op();
-        return -1;
-      }
+    // NEW: Validate file permissions
+    if((ip->perm & 1) == 0 && (omode & O_RDONLY)){ // No read permission
+      iunlockput(ip);
+      end_op();
+      return -1;
+    }
+    if((ip->perm & 2) == 0 && (omode & O_WRONLY)){ // No write permission
+      iunlockput(ip);
+      end_op();
+      return -1;
+    }
+    if(ip->perm == 5){ // Immutable files can only be opened as read-only
+      omode = O_RDONLY;
     }
   }
 
@@ -389,7 +385,6 @@ sys_open(void)
 
   return fd;
 }
-
 uint64
 sys_mkdir(void)
 {
@@ -427,27 +422,38 @@ sys_mknod(void)
 }
 
 uint64
-sys_chdir(void)
+sys_chmod(void)
 {
   char path[MAXPATH];
+  int mode;
+
+  // Usar argstr y argint sin comparar directamente su valor.
+  if(argstr(0, path, MAXPATH) < 0)
+    return -1;
+
+  argint(1, &mode); // argint ya asigna directamente a mode.
+
+  // Implementar lógica de cambio de permisos (asume que tienes una función inodechmod).
   struct inode *ip;
-  struct proc *p = myproc();
-  
   begin_op();
-  if(argstr(0, path, MAXPATH) < 0 || (ip = namei(path)) == 0){
+  if((ip = namei(path)) == 0){
     end_op();
     return -1;
   }
   ilock(ip);
-  if(ip->type != T_DIR){
+  
+  // Verifica si el archivo es inmutable antes de cambiar los permisos
+  if (ip->perm == 5) {
     iunlockput(ip);
     end_op();
-    return -1;
+    return -1; // Error porque el archivo es inmutable
   }
-  iunlock(ip);
-  iput(p->cwd);
+
+  ip->perm = mode; // Cambia los permisos
+  iupdate(ip);
+  iunlockput(ip);
   end_op();
-  p->cwd = ip;
+
   return 0;
 }
 
@@ -523,37 +529,27 @@ sys_pipe(void)
   }
   return 0;
 }
-
 uint64
-sys_chmod(void) {
-  char path[MAXPATH];
-  int mode;
-  struct inode *ip;
+sys_chdir(void)
+{
+    char path[MAXPATH];
+    struct inode *ip;
 
-  argint(1, &mode);
-  if(argstr(0, path, MAXPATH) < 0 || mode < 0)
-    return -1;
-
-  begin_op();
-
-  if((ip = namei(path)) == 0) {
+    if(argstr(0, path, MAXPATH) < 0)
+        return -1;
+    begin_op();
+    if((ip = namei(path)) == 0){
+        end_op();
+        return -1;
+    }
+    ilock(ip);
+    if(ip->type != T_DIR){
+        iunlockput(ip);
+        end_op();
+        return -1;
+    }
+    iunlock(ip);
     end_op();
-    printf("Archivo no encontrado.\n");
-    return -1; 
-  }
-
-  ilock(ip);
-
-  if(ip->perm == 5) {
-    iunlockput(ip);
-    end_op();
-    return -1;
-  }
-
-  ip->perm = mode;
-  iupdate(ip);
-  iunlockput(ip);
-  end_op();
-
-  return 0;
+    myproc()->cwd = ip;
+    return 0;
 }
