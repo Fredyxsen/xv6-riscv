@@ -81,6 +81,7 @@ main(int argc, char *argv[])
     fprintf(stderr, "Usage: mkfs fs.img files...\n");
     exit(1);
   }
+
   // assert((BSIZE % sizeof(struct dinode)) == 0);
   assert((BSIZE % sizeof(struct dirent)) == 0);
 
@@ -246,7 +247,6 @@ balloc(int used)
   }
   printf("balloc: write bitmap block at sector %d\n", sb.bmapstart);
   wsect(sb.bmapstart, buf);
-    printf("BSIZE: %d, sizeof(dinode): %ld\n", BSIZE, sizeof(struct dinode));
 }
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
