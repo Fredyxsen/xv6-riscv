@@ -2,6 +2,14 @@
 
 En este trabajo, se implementaron las funciones del sistema operativo `chmod` en el sistema **xv6**. Esta funcionalidad permite modificar los permisos de acceso a un archivo o directorio, lo cual es crucial para garantizar la seguridad del sistema.
 
+## ¿Qué es `chmod` y por qué es importante?
+
+`chmod` (change mode) es un comando utilizado para cambiar los permisos de acceso de un archivo o directorio. Estos permisos definen quién puede leer, escribir o ejecutar un archivo. En sistemas operativos como Unix y sus derivados, `chmod` es fundamental para:
+
+1. **Controlar el acceso:** Permite restringir o habilitar el acceso a ciertos usuarios, asegurando que los archivos sensibles no puedan ser manipulados sin autorización.
+2. **Proteger la integridad de los datos:** Archivos importantes pueden configurarse como inmutables para prevenir modificaciones accidentales o malintencionadas.
+3. **Fomentar la colaboración segura:** Permite gestionar permisos específicos para usuarios o grupos, facilitando el trabajo colaborativo sin comprometer la seguridad.
+
 ## Modificación de permisos e implementación de la llamada de sistema `chmod()`
 
 1. **Modificar `syscall.h`:**
