@@ -195,7 +195,7 @@ En este trabajo, se implementaron las funciones del sistema operativo `chmod` en
    ![Captura de pantalla (188)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T4/images/Captura%20de%20pantalla%20(188).png)
 
 **CONCLUSION**
-La implementación de la syscall chmod en el sistema operativo xv6 representa un avance significativo en términos de funcionalidad y seguridad. Este cambio permite manejar permisos de acceso de manera más granular, lo que es esencial en cualquier sistema operativo moderno. Durante el desarrollo, logramos integrar de manera efectiva nuevos campos en las estructuras de inodos y ajustes en las llamadas al sistema para soportar esta funcionalidad.
+*La implementación de la syscall chmod en el sistema operativo xv6 representa un avance significativo en términos de funcionalidad y seguridad. Este cambio permite manejar permisos de acceso de manera más granular, lo que es esencial en cualquier sistema operativo moderno. Durante el desarrollo, logramos integrar de manera efectiva nuevos campos en las estructuras de inodos y ajustes en las llamadas al sistema para soportar esta funcionalidad.
 
 Gracias a las pruebas realizadas, se validó que los permisos configurados, como solo lectura e inmutable, funcionan correctamente y cumplen con los objetivos planteados. Este trabajo destaca la importancia de controlar el acceso a los archivos para proteger la integridad de los datos y facilitar un entorno seguro para los usuarios.
 
