@@ -16,7 +16,7 @@ int main() {
   char *filename = "testfile.txt";
   int fd;
 
-  // Paso 1: Crear un archivo con permisos de lectura y escritura.
+  //Creamos un archivo con los permisos para poder hacer lectura y escritura.
   fd = open(filename, O_CREATE | O_RDWR);
   
   if (fd < 0) {
@@ -26,7 +26,7 @@ int main() {
   printf("Archivo %s creado con éxito.\n", filename);
 
   // Escribir en el archivo.
-  if (write(fd, "Hola mundo!", 11) != 11) {
+  if (write(fd, "Chocolate", 11) != 11) {
     printf("Error: no se pudo escribir en el archivo.\n");
     exit(1);
   }
@@ -34,7 +34,7 @@ int main() {
 
   close(fd);
 
-  // Paso 2: Cambiar permisos a solo lectura.
+  //Cambiar los permisos a solo modo de lectura.
   print_result(chmod(filename, 1), "Cambiar permisos a solo lectura (1)");
 
   fd = open(filename, O_WRONLY);
@@ -43,10 +43,10 @@ int main() {
     close(fd);
     exit(1);
   } else {
-    printf("Archivo no se pudo abrir en modo escritura como se esperaba.\n");
+    printf("Archivo no se pudo abrir en modo escritura.\n");
   }
 
-  // Paso 3: Cambiar permisos a lectura y escritura.
+  // Paso 3: Cambiar los permisos a lectura y tambien escritura.
   print_result(chmod(filename, 3), "Cambiar permisos a lectura y escritura (3)");
 
   fd = open(filename, O_RDWR);
@@ -71,7 +71,7 @@ int main() {
     close(fd);
     exit(1);
   } else {
-    printf("Archivo no se pudo abrir en modo escritura como se esperaba.\n");
+    printf("Archivo no se pudo abrir en modo escritura.\n");
   }
 
   // Intentar cambiar permisos de inmutable a lectura y escritura (debe fallar).
@@ -80,7 +80,7 @@ int main() {
     printf("Error: Se cambiaron los permisos de un archivo inmutable.\n");
     exit(1);
   } else {
-    printf("Los permisos de un archivo inmutable no se pudieron cambiar (como era esperado).\n");
+    printf("Los permisos de un archivo inmutable no fue posible cambiarlos.\n");
   }
 
   printf("Todas las pruebas pasaron con éxito.\n");
