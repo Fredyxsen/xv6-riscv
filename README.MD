@@ -190,3 +190,6 @@ En este trabajo, se implementaron las funciones del sistema operativo `chmod` en
       exit(0);
     }
     ```
+**Capturas**:
+   ![Captura de pantalla (187)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T4/images/Captura%20de%20pantalla%20(187).png)
+   ![Captura de pantalla (188)](https://github.com/Fredyxsen/xv6-riscvz/blob/Diego_Marin_T4/images/Captura%20de%20pantalla%20(188).png)
